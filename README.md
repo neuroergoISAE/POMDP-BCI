@@ -23,26 +23,12 @@ Note: The CVEP experiment uses a CNN that can be trained using your GPU with Ten
 ```
 ├── pomdp_bci
 │   ├── domain
-│   │   ├── action.py
-│   │   ├── __init__.py
-│   │   ├── observation.py
-│   │   └── state.py
 │   ├── __init__.py
 │   ├── models
-│   │   ├── __init__.py
-│   │   ├── observation_model.py
-│   │   ├── policy_model.py
-│   │   ├── reward_model.py
-│   │   └── transition_model.py
 │   ├── plots
 │   ├── problem.py
+│   ├── ssvep_pomdp.py
 │   └── utils
-│       ├── EEG2Code.py
-│       ├── __init__.py
-│       ├── TRCA.py
-│       ├── utils_clf.py
-│       ├── utils_problem.py
-│       └── utils_results.py
 ├── README.md
 ├── requirements.txt
 └── setup.py
