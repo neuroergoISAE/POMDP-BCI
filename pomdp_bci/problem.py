@@ -1,5 +1,5 @@
 """
-VEP problem definition using a POMDP model.
+BCI problem definition using a POMDP model.
 
 Author: Juan Jesus Torre Tresols
 mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
@@ -27,11 +27,9 @@ class BCIProblem(pomdp_py.POMDP):
     n_class: int
         Number of flickers of this problem. Used for PolicyModel and TransitionModel
 
-    features: np.array
-        Features for the observation model. See bci_pomdp.ObservationModel for more information
-
-    discretization: str, default 'conf_matrix'
-        Discretization for the observation model. See bci_pomdp.ObservationModel for more information
+    conf_matrix: n-D np.array
+        Confusion matrix obtained from a previously trained classifier to use as the observation matrix.
+        See bci_pomdp.ObservationModel for more information
 
     hit_reward: int
         Reward for correct actions. See bci_pomdp.TransitionModel for more information
@@ -42,11 +40,11 @@ class BCIProblem(pomdp_py.POMDP):
     wait_cost: int
         Cost for the 'wait' action. See bci_pomdp.TransitionModel for more information
     """
-    def __init__(self, init_belief, init_true_state, n_class, features, discretization='conf_matrix',
+    def __init__(self, init_belief, init_true_state, n_class, conf_matrix,
                  hit_reward=10, miss_cost=-100, wait_cost=-1):
         policy_model = PolicyModel(n_class)
         transition_model = TransitionModel(n_class)
-        observation_model = ObservationModel(features=features, discretization=discretization)
+        observation_model = ObservationModel(conf_matrix=conf_matrix)
         reward_model = RewardModel(hit_reward, miss_cost, wait_cost)
 
         agent = pomdp_py.Agent(init_belief,

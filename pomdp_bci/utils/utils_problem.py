@@ -137,6 +137,7 @@ def load_data(subject, dataset, eeg_path=None, ch_keep=[]):
 
     return epochs
 
+
 def add_safety_margin(conf_matrix, mixing_coef=0.3):
     """
     Modify the confusion matrix by mixing it with the uniform distribution, according to what is 
@@ -148,7 +149,7 @@ def add_safety_margin(conf_matrix, mixing_coef=0.3):
     conf_matrix: np.array of shape (n_classes, n_classes)
         Confusion matrix to modify
 
-    mixing_coeff: float, default=0.3
+    mixing_coef: float, default=0.3
         Parameter that determines the maximum value of the diagonal after the operation, that will
         be roughly equal to 1 - mixing_coeff
 

@@ -22,8 +22,8 @@ Note: The CVEP experiment uses a CNN that can be trained using your GPU with Ten
 ## File structure
 ```
 ├── pomdp_bci
-│   ├── domain
 │   ├── __init__.py
+│   ├── domain
 │   ├── models
 │   ├── plots
 │   ├── problem.py
@@ -37,6 +37,6 @@ Note: The CVEP experiment uses a CNN that can be trained using your GPU with Ten
 All the necessary code to run the experiments can be found inside the `pomdp_bci` folder: 
 - The folders `domain` and `models`, together with `problem.py` contain the code that defines the POMDP model. 
 - The folder `plots` contains the code to generate figures relative to the results of the experiments, as well as LaTeX tables
-- The files `ssvep_pomdp.py`, `cvep_pomdp.py` and `mi_pomdp.py` contain the three experiments. Once run, the results will be put in the `results` folder
+- The files `ssvep_pomdp.py`, `cvep_pomdp.py` and `mi_pomdp.py` contain the three experiments. Once run, the results will be put in the `results` folder (it will be created if it is not there)
 - Finally, the `utils` folder contains scripts for various helper functions that are called by the different experiments, including the definition of the CNN used in `cvep_pomdp.py` and the TRCA implementation used in `ssvep_pomdp.py`
 
