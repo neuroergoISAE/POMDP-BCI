@@ -31,7 +31,7 @@ from pomdp_bci.problem import BCIProblem
 from pomdp_bci.domain import BCIState, BCIObservation
 from pomdp_bci.utils import save_results, add_safety_margin
 
-# Path variables
+# Path variables - put your paths here or export them to your environment
 sarsop_path = os.environ.get('SARSOP') 
 
 time = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
@@ -172,7 +172,7 @@ for dataset_name, algo in itertools.product(datasets, algos):
 
         # Once the model is ready, create a POMDP using different parameters for length of the window to be used,
         # the time step, and the cost for misses
-        for (slice_len, time_step), miss_cost, margin_method in itertools.product(slice_steps, miss_costs):
+        for (slice_len, time_step), miss_cost in itertools.product(slice_steps, miss_costs):
             # Get the number of steps the model has to simulate the policy according to epoch_len, slice_len
             # and time_step
             model_steps = int((epoch_len - slice_len) / time_step) + 1
@@ -187,7 +187,7 @@ for dataset_name, algo in itertools.product(datasets, algos):
             print(f'  Discount factor: {gamma}')
 
             # Create dictionary entry for this iteration
-            iter_name = f'{dataset_name}_{algo}-slice{slice_len}_step{time_step}_cost{miss_cost}_gamma{gamma}_regu{margin_method}'
+            iter_name = f'{dataset_name}_{algo}-slice{slice_len}_step{time_step}_cost{miss_cost}_gamma{gamma}'
             score_dict[sub][iter_name] = {}
 
             # Get total steps and step interval
@@ -255,7 +255,7 @@ for dataset_name, algo in itertools.product(datasets, algos):
             init_belief = pomdp_py.Histogram({state: 1 / n_states for state in all_states})  # Uniform initial belief
 
             mi_problem = BCIProblem(init_belief=init_belief, init_true_state=init_true_state,
-                                    n_class=n_states, features=conf_matrix, discretization='conf_matrix',
+                                    n_class=n_states, conf_matrix=conf_matrix,
                                     hit_reward=hit_reward, miss_cost=miss_cost, wait_cost=wait_cost)
 
             print('')
@@ -382,7 +382,6 @@ for dataset_name, algo in itertools.product(datasets, algos):
                                         'wait_cost': wait_cost,
                                         'margins_added': margins_added,
                                         'mixing_coef': mixing_coef,
-                                        'regu_type': margin_method,
                                         'test_n': len(y_test),
                                         'cv_n': len(y_cv),
                                         'algorithm': algo,

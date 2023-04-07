@@ -8,12 +8,17 @@ The pomdp implementation depends on the [pomdp-py package for Python](https://gi
 
 ## Dependencies
 
-- cython
-- pomdp_py
-- 
+- Cython
+- Pomdp_py
+- Pyriemann
+- Mne
+- Moabb
+- Tensorflow
+- Tensorflow-addons
+
 This project was tested to run on Python 3.7 installed using Anaconda. Required packages can be installed using pip:
 ```
-$ pip install cython pomdp_py
+$ pip install cython pomdp_py pyriemann mne moabb tensorflow==2.11.0 tensorflow-addons
 ```
 
 It is also needed to `pip install` this package in order for the scripts to work:
@@ -23,7 +28,10 @@ cd POMDP-BCI
 pip install -e .
 ``` 
 
-Note: The CVEP experiment uses a CNN that can be trained using your GPU with Tensorflow. In order to do that, please refer to the [Tensorflow documentation](https://www.tensorflow.org/install/pip#step-by-step_instructions) on the section 'GPU setup'. Refer to [this table](https://www.tensorflow.org/install/source#gpu) in order to know which version of Cuda works with your Tensorflow version.
+Note: The CVEP experiment uses a CNN that can be trained using your GPU with Tensorflow. In order to do that,
+please refer to the [Tensorflow documentation](https://www.tensorflow.org/install/pip#step-by-step_instructions) 
+on the section 'GPU setup'. Refer to [this table](https://www.tensorflow.org/install/source#gpu) in order to know 
+which version of Cuda works with your Tensorflow version. This project uses version 2.11.0.
 
 ## File structure
 ```

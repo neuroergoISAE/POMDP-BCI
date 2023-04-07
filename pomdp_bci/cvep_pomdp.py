@@ -28,7 +28,7 @@ from pomdp_bci.utils import load_data, add_safety_margin, save_results, epoch_to
                             get_code_prediction, make_preds_accumul_aggresive
 
 
-def fit_clf(win_data, win_labels, algorithm):
+def fit_clf(win_data, win_labels):
     """
     Return a fit classifier using the selected data and architecture
 
@@ -84,8 +84,7 @@ def fit_clf(win_data, win_labels, algorithm):
     return clf
 
 
-# Path variables
-# path = '/home/dcas/j.torre-tresols/data/eeg_cvep'
+# Path variables - put your paths here or export them to your environment
 data_path = os.environ.get('CVEP')
 sarsop_path = os.environ.get('SARSOP')
 
@@ -212,7 +211,7 @@ for dataset, algo in itertools.product(datasets, algos):
 
         # Once the model is trained and the codes are regressed, create a POMDP for different values of epoch len,
         # time step, miss cost, gamma, etc.
-        for (slice_len, time_step), miss_cost, margin_method in itertools.product(slice_steps, miss_costs):
+        for (slice_len, time_step), miss_cost in itertools.product(slice_steps, miss_costs):
             # Get the number of steps the model can use to simulate the policy: 6 for 0.1
             model_steps = int((epoch_len - slice_len) / time_step) + 1
             # Get the value that, when to the power of model_steps, gives the desired gamma_horizon
@@ -226,7 +225,7 @@ for dataset, algo in itertools.product(datasets, algos):
             print(f'  Discount factor: {gamma}')
 
             # Create dictionary entry for this iteration
-            iter_name = f'{dataset}_{algo}-slice{slice_len}_step{time_step}_cost{miss_cost}_gamma{gamma}_regu{margin_method}'
+            iter_name = f'{dataset}_{algo}-slice{slice_len}_step{time_step}_cost{miss_cost}_gamma{gamma}'
             score_dict[sub][iter_name] = {}
 
             # Get partial acc score on every time step
@@ -408,7 +407,6 @@ for dataset, algo in itertools.product(datasets, algos):
                                         'miss_cost': miss_cost,
                                         'wait_cost': wait_cost,
                                         'obs_matrix_regu': add_margins,
-                                        'regu_type': margin_method,
                                         'test_n': test_n,
                                         'cv_n': cv_n,
                                         'algorithm': algo}

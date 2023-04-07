@@ -74,7 +74,7 @@ def load_data(subject, dataset, eeg_path=None, ch_keep=[]):
         Preprocessed and epoched data
     """
 
-    if dataset == 'nakanishi':
+    if dataset == 'ssvep':
         nakanishi = Nakanishi2015()
         sessions = nakanishi.get_data(subjects=[subject])
         file_path = nakanishi.data_path(subject)
@@ -83,25 +83,21 @@ def load_data(subject, dataset, eeg_path=None, ch_keep=[]):
         events = mne.find_events(raw, verbose=False)
         event_id = nakanishi.event_id
 
-    else:
-        if dataset == 'high_amp':
-            filename = f"P{subject}_low_100.set"
-        elif dataset == 'cvep':
-            filename = f"{subject}_mseqwhite.set"
+    elif dataset == 'cvep':
+        filename = f"{subject}_mseqwhite.set"
 
         file_path = os.path.join(eeg_path, filename)
         raw = mne.io.read_raw_eeglab(file_path, preload=True, verbose=False)
 
         # CVEP needs annotation cleaning before extracting events
-        if dataset == 'cvep':
-            for idx in range(len(raw.annotations.description)):
-                code = raw.annotations.description[idx].split('_')[0]
-                lab = raw.annotations.description[idx].split('_')[1]
-                code = code.replace('\n', '')
-                code = code.replace('[', '')
-                code = code.replace(']', '')
-                code = code.replace(' ', '')
-                raw.annotations.description[idx] = code + '_' + lab
+        for idx in range(len(raw.annotations.description)):
+            code = raw.annotations.description[idx].split('_')[0]
+            lab = raw.annotations.description[idx].split('_')[1]
+            code = code.replace('\n', '')
+            code = code.replace('[', '')
+            code = code.replace(']', '')
+            code = code.replace(' ', '')
+            raw.annotations.description[idx] = code + '_' + lab
 
         events, event_id = mne.events_from_annotations(raw, verbose=False)
 

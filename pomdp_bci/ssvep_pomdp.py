@@ -58,7 +58,7 @@ datasets = ['ssvep']
 grand_results_filename = os.path.join(results_path, f'comparison_ssvep_{time}.csv')
 grand_results = {}
 
-for dataset, (slice_len, time_step), margin_method in itertools.product(datasets, slice_steps):
+for dataset, (slice_len, time_step) in itertools.product(datasets, slice_steps):
     # Load dataset-specific parameters
     with open(f'{dataset}.json', 'r') as dataset_params:
         params = json.loads(dataset_params.read())
