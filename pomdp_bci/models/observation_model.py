@@ -16,7 +16,7 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 
 import pomdp_py
 
-from bci_pomdp.domain.observation import BCIObservation
+from pomdp_bci.domain.observation import BCIObservation
 
 
 class ObservationModel(pomdp_py.ObservationModel):

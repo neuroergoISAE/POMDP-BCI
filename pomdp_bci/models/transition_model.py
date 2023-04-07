@@ -11,7 +11,7 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 import pomdp_py
 import random
 
-from bci_pomdp.domain import BCIState
+from pomdp_bci.domain import BCIState
 
 
 class TransitionModel(pomdp_py.TransitionModel):

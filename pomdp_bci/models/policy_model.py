@@ -10,7 +10,7 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 import pomdp_py
 import random
 
-from bci_pomdp.domain import BCIAction
+from pomdp_bci.domain import BCIAction
 
 
 class PolicyModel(pomdp_py.RolloutPolicy):

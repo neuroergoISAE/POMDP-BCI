@@ -20,10 +20,10 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 from pomdp_py import sarsop
 
-from bci_pomdp.problem import BCIProblem
-from bci_pomdp.domain import BCIState, BCIObservation
-from bci_pomdp.utils import TRCA
-from bci_pomdp.utils import load_data, add_safety_margin, save_results
+from pomdp_bci.problem import BCIProblem
+from pomdp_bci.domain import BCIState, BCIObservation
+from pomdp_bci.utils import TRCA
+from pomdp_bci.utils import load_data, add_safety_margin, save_results
 
 # Path variables - put your paths here or export them to your environment 
 data_path = os.environ.get('SSVEP')
@@ -52,7 +52,7 @@ gamma = 0.99
 
 # Analysis variables
 slice_steps = [(0.5, 0.1)]  # (slice_len, time_step)
-datasets = ['nakanishi']
+datasets = ['ssvep']
 
 # Big results filename
 grand_results_filename = os.path.join(results_path, f'comparison_ssvep_{time}.csv')

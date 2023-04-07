@@ -21,11 +21,10 @@ import numpy as np
 import scipy.linalg as linalg
 
 from sklearn.base import BaseEstimator, ClassifierMixin
-from sklearn.decomposition import PCA
 from pyriemann.estimation import Covariances
-from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
+from sklearn.utils.validation import check_is_fitted
 
-from bci_pomdp.utils.utils_clf import filterbank, schaefer_strimmer_cov
+from pomdp_bci.utils.utils_clf import filterbank, schaefer_strimmer_cov
 
 from pyriemann.utils.mean import mean_covariance
 

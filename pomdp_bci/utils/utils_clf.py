@@ -9,9 +9,6 @@ import numpy as np
 import scipy.signal as scp
 
 from scipy.signal import hilbert
-from sklearn.cross_decomposition import CCA
-
-#from meegkit.utils import gaussfilt
 
 
 def filterbank(data, sfreq, idx_fb, peaks):

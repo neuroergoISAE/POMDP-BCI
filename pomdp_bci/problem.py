@@ -7,7 +7,7 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 
 import pomdp_py
 
-from bci_pomdp.models import ObservationModel, TransitionModel, PolicyModel, RewardModel
+from pomdp_bci.models import ObservationModel, TransitionModel, PolicyModel, RewardModel
 
 
 class BCIProblem(pomdp_py.POMDP):

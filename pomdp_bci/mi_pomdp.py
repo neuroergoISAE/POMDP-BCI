@@ -27,9 +27,9 @@ from pyriemann.tangentspace import TangentSpace
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.linear_model import LogisticRegression
 
-from bci_pomdp.problem import BCIProblem
-from bci_pomdp.domain import BCIState, BCIObservation
-from bci_pomdp.utils import save_results, add_safety_margin
+from pomdp_bci.problem import BCIProblem
+from pomdp_bci.domain import BCIState, BCIObservation
+from pomdp_bci.utils import save_results, add_safety_margin
 
 # Path variables
 sarsop_path = os.environ.get('SARSOP') 

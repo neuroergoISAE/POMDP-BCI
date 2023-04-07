@@ -7,8 +7,14 @@ The pomdp implementation depends on the [pomdp-py package for Python](https://gi
 - For the CVEP experiment, the dataset is available on [Zenodo](https://zenodo.org/record/7277151)
 
 ## Dependencies
-All necessary packages can be installed with the provided 'requirements.txt' file:
-```$ pip install -r requirements.txt```
+
+- cython
+- pomdp_py
+- 
+This project was tested to run on Python 3.7 installed using Anaconda. Required packages can be installed using pip:
+```
+$ pip install cython pomdp_py
+```
 
 It is also needed to `pip install` this package in order for the scripts to work:
 ```

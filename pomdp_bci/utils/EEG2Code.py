@@ -14,7 +14,6 @@ Mail: Ludovic.DARMET@isae-supaero.fr
 
 from __future__ import division
 import numpy as np
-from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
     Input,
