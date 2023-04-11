@@ -125,7 +125,7 @@ grand_results = {}  # Keys are iterations, hold results for all subjects
 
 for dataset, algo in itertools.product(datasets, algos):
     # Load dataset-specific parameters
-    with open(f'{dataset}.json', 'r') as dataset_params:
+    with open(f'{config/dataset}.json', 'r') as dataset_params:
         params = json.loads(dataset_params.read())
 
     downsample = int(params['sfreq'] / 250)  # After downsampling, sfreq should be 250Hz

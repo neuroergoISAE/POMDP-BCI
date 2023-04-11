@@ -72,7 +72,7 @@ dataset_results = {}
 for dataset_name, algo in itertools.product(datasets, algos):
     # Load dataset-specific parameters
     modality, analysis = dataset_name.split('_')
-    with open(f'{modality}.json', 'r') as dataset_params:
+    with open(f'{config/modality}.json', 'r') as dataset_params:
         params = json.loads(dataset_params.read())
 
     if 'MI' in dataset_name:

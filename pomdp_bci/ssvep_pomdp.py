@@ -60,7 +60,7 @@ grand_results = {}
 
 for dataset, (slice_len, time_step) in itertools.product(datasets, slice_steps):
     # Load dataset-specific parameters
-    with open(f'{dataset}.json', 'r') as dataset_params:
+    with open(f'{config/dataset}.json', 'r') as dataset_params:
         params = json.loads(dataset_params.read())
 
     downsample = int(params['sfreq'] / 250)  # After downsampling, sfreq should be 250Hz
