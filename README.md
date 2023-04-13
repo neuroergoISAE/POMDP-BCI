@@ -1,5 +1,5 @@
 # POMDP-BCI
-Python scripts of the implementation of a Partially Observable Markov Decission Process (POMDP) used for sequential decision-making on three different BCI approaches using: steady-state visually evoked potentials (SSVEP), code visually evoked potentials (CVEP), and motor imagery (MI). 
+Python scripts of the implementation of a Partially Observable Markov Decision Process (POMDP) used for sequential decision-making on three different BCI approaches using: steady-state visually evoked potentials (SSVEP), code visually evoked potentials (CVEP), and motor imagery (MI). 
 
 The pomdp implementation depends on the [pomdp-py package for Python](https://github.com/h2r/pomdp-py). The data used on the different analyses is available online:
 
