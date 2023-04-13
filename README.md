@@ -46,7 +46,6 @@ which version of Cuda works with your Tensorflow version. This project uses vers
 │   ├── mi_pomdp.py
 │   └── utils
 ├── README.md
-├── requirements.txt
 └── setup.py
 
 ```
