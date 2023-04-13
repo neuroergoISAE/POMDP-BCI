@@ -40,13 +40,10 @@ which version of Cuda works with your Tensorflow version. This project uses vers
 │   ├── domain
 │   ├── models
 │   ├── problem.py
-│   ├── plots
+│   ├── config
 │   ├── ssvep_pomdp.py
-│   ├── ssvep.json
 │   ├── cvep_pomdp.py
-│   ├── cvep.json
 │   ├── mi_pomdp.py
-│   ├── MI.json
 │   └── utils
 ├── README.md
 ├── requirements.txt
@@ -58,6 +55,6 @@ All the necessary code to run the experiments can be found inside the `pomdp_bci
 - The folders `domain` and `models`, together with `problem.py` contain the code that defines the POMDP model. 
 - The folder `plots` contains the code to generate figures relative to the results of the experiments, as well as LaTeX tables
 - The files `ssvep_pomdp.py`, `cvep_pomdp.py` and `mi_pomdp.py` contain the three experiments. Once run, the results will be put in the `results` folder (it will be created if it is not there)
-  - Each analysis file has a corresponding `.json` file with parameters required for the analysis, such as the number of subjects in the dataset
+  - Each analysis file has a corresponding `.json` file with parameters required for the analysis, such as the number of subjects in the dataset. They can be found in the `config` folder.
 - Finally, the `utils` folder contains scripts for various helper functions that are called by the different experiments, including the definition of the CNN used in `cvep_pomdp.py` and the TRCA implementation used in `ssvep_pomdp.py`
 
