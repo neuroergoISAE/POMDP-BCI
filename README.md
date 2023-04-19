@@ -7,6 +7,9 @@ The pomdp implementation depends on the [pomdp-py package for Python](https://gi
 - For the CVEP experiment, the dataset is available on [Zenodo](https://zenodo.org/record/7277151)
 
 ## Dependencies
+Here we detail all the necessary packages and utilities to run the contents of the repo.
+
+### Python Dependencies
 
 - Cython
 - Pomdp_py
@@ -32,6 +35,12 @@ Note: The CVEP experiment uses a CNN that can be trained using your GPU with Ten
 please refer to the [Tensorflow documentation](https://www.tensorflow.org/install/pip#step-by-step_instructions) 
 on the section 'GPU setup'. Refer to [this table](https://www.tensorflow.org/install/source#gpu) in order to know 
 which version of Cuda works with your Tensorflow version. This project uses version 2.11.0.
+
+### Other Dependencies
+
+The POMDP model presented in this repo uses the SARSOP implementation from [this Github repo](https://github.com/AdaCompNUS/sarsop) through the interface provided by pomdp_py (check [the documentation](https://h2r.github.io/pomdp-py/html/examples.external_solvers.html#using-sarsop) for details). 
+
+In order to use it for our POMDP, SARSOP needs to be built from the repo and its path specified on the script that uses it. Instructions for building the libraty can be found on the SARSOP repository, while instructions on how to set the path and call the `sarsop` pomdp_py functioncan be found in the pomdp_py documentation, both linked above.
 
 ## File structure
 ```
