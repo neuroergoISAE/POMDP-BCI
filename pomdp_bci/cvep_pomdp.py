@@ -28,7 +28,7 @@ from pomdp_bci.utils import load_data, add_safety_margin, save_results, epoch_to
                             get_code_prediction, make_preds_accumul_aggresive
 
 
-def fit_clf(win_data, win_labels):
+def fit_clf(win_data, win_labels, sfreq, algo='EEGnet_patchembeddingdilation'):
     """
     Return a fit classifier using the selected data and architecture
 
@@ -58,7 +58,7 @@ def fit_clf(win_data, win_labels):
     win_labels = np.squeeze(win_labels[index])
 
     # Initialize NN
-    win_samples = int(code_win_len * params['sfreq'])
+    win_samples = int(code_win_len * sfreq)
     n_channels = win_data.shape[1]  # Number of channels in the data (for channels last)
 
     if algo == 'EEGnet_patchembeddingdilation':
@@ -125,12 +125,13 @@ grand_results = {}  # Keys are iterations, hold results for all subjects
 
 for dataset, algo in itertools.product(datasets, algos):
     # Load dataset-specific parameters
-    with open(f'{config/dataset}.json', 'r') as dataset_params:
+    with open(f'config/{dataset}.json', 'r') as dataset_params:
         params = json.loads(dataset_params.read())
 
     downsample = int(params['sfreq'] / 250)  # After downsampling, sfreq should be 250Hz
 
-    sub_list = params['sub_list']
+    excluded_subs = params['excluded_subs']
+    sub_list = [sub_n for sub_n in range(params['n_subs']) if sub_n not in excluded_subs]
     score_dict = {sub: {} for sub in sub_list}
     metadata_dict = {}
 
@@ -191,7 +192,7 @@ for dataset, algo in itertools.product(datasets, algos):
         data_cv /= cal_std + 1e-8
 
         # Fit
-        pomdp_clf = fit_clf(data_cal, labels_cal, algorithm=algo)
+        pomdp_clf = fit_clf(data_cal, labels_cal, sfreq=params['sfreq'], algo=algo)
         print('Data was fit')
 
         # Predict the codes of validation data (split in 10 to avoid OOM from the GPU)

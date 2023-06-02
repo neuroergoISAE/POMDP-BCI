@@ -84,7 +84,7 @@ def load_data(subject, dataset, eeg_path=None, ch_keep=[]):
         event_id = nakanishi.event_id
 
     elif dataset == 'cvep':
-        filename = f"{subject}_mseqwhite.set"
+        filename = f"P{subject}_whitemseq.set"
 
         file_path = os.path.join(eeg_path, filename)
         raw = mne.io.read_raw_eeglab(file_path, preload=True, verbose=False)
@@ -114,8 +114,6 @@ def load_data(subject, dataset, eeg_path=None, ch_keep=[]):
 
     # CVEP needs the montage manually set
     if dataset == 'cvep':
-        montage = get_liveamp_montage(eeg_path)
-        raw.set_montage(montage)
         raw = raw.drop_channels(['21', '10'])
 
     mne.set_eeg_reference(raw, 'average', copy=False, verbose=False)
