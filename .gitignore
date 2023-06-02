@@ -1,3 +1,9 @@
+# Pycharm stuff
+.idea
+
+# Env variables
+pomdp_bci/env_variables.sh
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
