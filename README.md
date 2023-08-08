@@ -8,7 +8,7 @@ The pomdp implementation depends on the [pomdp-py package for Python](https://gi
 
 ## Disclaimer and reproducibility
 This repository is the public codebase of a work-in-progress research project. As such, file structure and code organization may evolve as new approaches are tested and publications are written. In order to ensure reproducibility of all works related to this project,
-a github release corresponding to each scientific publication will be released. Please consult the [releases page](https://github.com/neuroergoISAE/POMDP-BCI/releases) to find the corresponding release to the publication whose results you are interested in testing
+a github release corresponding to each scientific publication will be made available. Please consult the [releases page](https://github.com/neuroergoISAE/POMDP-BCI/releases) to find the corresponding release to the publication whose results you are interested in testing
 or working from. As this repository is not the one where the code is developed, there is a possibility that the releases contain minor bugs related to filenames or file organization, which may be different in the original repository. If you encounter any bugs
 trying to run the code contained in this repository, please open an issue so the bugs can be fixed as soon as possible.
 
