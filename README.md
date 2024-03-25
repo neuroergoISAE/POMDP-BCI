@@ -56,6 +56,9 @@ In order to use it for our POMDP, SARSOP needs to be built from the repo and its
 │   ├── models
 │   ├── problem.py
 │   ├── config
+│   ├── experiment.py
+│   ├── ssvep_exp.py
+│   ├── cvep_exp.py
 │   ├── ssvep_pomdp.py
 │   ├── cvep_pomdp.py
 │   ├── mi_pomdp.py
@@ -68,7 +71,6 @@ In order to use it for our POMDP, SARSOP needs to be built from the repo and its
 All the necessary code to run the experiments can be found inside the `pomdp_bci` folder: 
 - The folders `domain` and `models`, together with `problem.py` contain the code that defines the POMDP model. 
 - The folder `plots` contains the code to generate figures relative to the results of the experiments, as well as LaTeX tables
-- The files `ssvep_pomdp.py`, `cvep_pomdp.py` and `mi_pomdp.py` contain the three experiments. Once run, the results will be put in the `results` folder (it will be created if it is not there)
+- The file `experiment.py` contains the abstract class for the common BCI-POMDP analysis, with all methods that are shared among datasets and BCI modalities. Each analysis file (`ssvep.py` and `cvep.py`) implement their own version of the relevant analysis methods. This allows for simple iteration among different variations of parameters for the analysis.
   - Each analysis file has a corresponding `.json` file with parameters required for the analysis, such as the number of subjects in the dataset. They can be found in the `config` folder.
-- Finally, the `utils` folder contains scripts for various helper functions that are called by the different experiments, including the definition of the CNN used in `cvep_pomdp.py` and the TRCA implementation used in `ssvep_pomdp.py`
-
+- The `utils` folder is preserved for backwards compatibility, and for the interfaces of TRCA and cvep's neural network. Most of the utility functions have been moved to `experiment.py`
