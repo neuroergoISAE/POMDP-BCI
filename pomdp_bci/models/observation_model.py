@@ -15,8 +15,9 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 """
 
 import pomdp_py
+import numpy as np
 
-from pomdp_bci.domain.observation import BCIObservation
+from bci_pomdp.domain.observation import BCIObservation
 
 
 class ObservationModel(pomdp_py.ObservationModel):
@@ -26,7 +27,7 @@ class ObservationModel(pomdp_py.ObservationModel):
 
     Parameters
     ----------
-    conf_matrix: n-D np.array
+    conf_matrix: 2D np.array
         Requires a confusion matrix in form of an array of the shape (n_states, n_obs) from a previously trained
         classifier and uses it as the observation matrix.
 
@@ -38,6 +39,7 @@ class ObservationModel(pomdp_py.ObservationModel):
         to the row. Example:
             observation_matrix[2][5] = p(O=o_5|S=s_2)
     """
+
     def __init__(self, conf_matrix):
         self.observation_matrix = conf_matrix
         self.n_states, self.n_obs = self.observation_matrix.shape
@@ -48,9 +50,94 @@ class ObservationModel(pomdp_py.ObservationModel):
         state_idx = int(next_state.id)
         return self.observation_matrix[state_idx][obs_idx]
 
+    def sample(self, next_state, action):
+        state_idx = next_state.id
+        obs_p = self.observation_matrix[state_idx]
+        return np.random.choice(self.get_all_observations(), p=obs_p)
+
     def get_all_observations(self):
         return [BCIObservation(o) for o in range(self.n_obs)]
 
 
+class TDObservationModel(ObservationModel):
+    """
+    Time-dependent extension of the ObservationModel class that takes into account
+    the time-step within each POMDP trial and allows the observation function to have
+    different observation probabilities depending on the time step.
 
+    This allows the time-dependent POMDP to leverage the fact that the more a trial
+    advances, the more brain data from the subject is available. Thus, the probability
+    p(o | s, a, d) (where d is the time step) should be less uncertain the longer the
+    trial is.
 
+    This also removes the contraint present in the basic model where the
+    initial time step of each trial needs a sufficiently large brain data window to
+    yield good classification (e.g. 0.5s), since restrictions on the previous observation
+    function required all time steps to use data windows of the same length.
+
+    Lastly, this extension includes a terminal observation o_term, which is deterministically
+    observed at the terminal state.
+
+    Parameters
+    ----------
+
+    conf_matrix: 3D np.array, shape (n_steps, n_states, n_observations)
+        Array containing the confusion matrices for each time-step of the model. Each 2D matrix must
+        be of shape (n_true, n_pred), corresponding to (n_states, n_observations).
+
+    Attributes
+    ----------
+
+    observation_matrix: 3D np.array, (n_timesteps, n_class, n_observation)
+        Matrix representing the observation model, where each element represents the probability of obtaining
+        the observation corresponding on the third dimension given that the agent is currently at the state
+        corresponding to the second simension and the current time step of the trial is that of the first dimension.
+
+        Example:
+            observation_matrix[3][2][5] = p(o=o_5|s=s_2, d=3)
+    """
+
+    def __init__(self, conf_matrix):
+        self.observation_matrix = conf_matrix
+        self.n_steps, self.n_states, self.n_obs = self.observation_matrix.shape
+
+    def probability(self, observation, next_state, action):
+        if "term" in observation.name:  # Terminal observation
+            if (
+                "term" in next_state.name or "wait" not in action.name
+            ):  # Transition to terminal state
+                return 1
+            else:
+                return 0
+        else:  # Non-terminal observation
+            if "term" in next_state.name or "wait" not in action.name:
+                return 0
+            else:
+                obs_idx = observation.id
+                state_idx = next_state.id
+                state_step = (
+                    next_state.t - 1
+                )  # observation_matrix[0] corresponds to when next_state.t is 1
+                return self.observation_matrix[state_step][state_idx][obs_idx]
+
+    def sample(self, next_state, action):
+        if (
+            "term" in next_state.name or "wait" not in action.name
+        ):  # Transition to terminal state
+            return BCIObservation("term")
+        else:  # Other transitions
+            state_idx = next_state.id
+            state_step = (
+                next_state.t - 1
+            )  # observation_matrix[0] corresponds to when next_state.t is 1
+            obs_p = self.observation_matrix[state_step][state_idx]
+            return np.random.choice(
+                self.get_all_observations(include_terminal=False), p=obs_p
+            )
+
+    def get_all_observations(self, include_terminal=True):
+        all_obs = [BCIObservation(o) for o in range(self.n_obs)]
+        if include_terminal:
+            all_obs.append(BCIObservation("term"))
+
+        return all_obs

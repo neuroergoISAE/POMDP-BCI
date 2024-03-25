@@ -19,15 +19,17 @@ class BCIAction(pomdp_py.Action):
         ----------
         action_name: int or str ['wait']
             Actions are organized in numbers, an action with a given number takes the agent from any state
-            to the terminal corresponding to said number. The action 'wait' always transitions to the same 
+            to the terminal corresponding to said number. The action 'wait' always transitions to the same
             state the agent was previously in. Note: This class does not check whether the action number is
             within bounds of the action space.
         """
         if not isinstance(action_name, int):
-            if action_name == 'wait':
+            if action_name == "wait":
                 pass
             else:
-                raise TypeError(f"Invalid action: {action_name}. Action must be an integer or 'wait'")
+                raise TypeError(
+                    f"Invalid action: {action_name}. Action must be an integer or 'wait'"
+                )
 
         self.id = action_name
         self.name = f"a_{action_name}"

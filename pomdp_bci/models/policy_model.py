@@ -24,9 +24,12 @@ class PolicyModel(pomdp_py.RolloutPolicy):
         Total number of states. Used to list every action
         as there is one action per flicker
     """
+
     def __init__(self, n_states):
         if not isinstance(n_states, int):
-            raise TypeError(f"Invalid number of states: {n_states}. It must be an integer.")
+            raise TypeError(
+                f"Invalid number of states: {n_states}. It must be an integer."
+            )
         self.n_states = n_states
 
     def sample(self, state):

@@ -15,19 +15,24 @@ import pomdp_py
 
 
 class BCIState(pomdp_py.State):
-    def __init__(self, state_n):
+    def __init__(self, state_id):
         """
         Parameters
         ----------
-        state_n: int
+        state_id: int
             The flicker number corresponding to the state. This class does not
             check if this number is within bounds of the state space or not.
         """
-        if not isinstance(state_n, int):
-            raise TypeError(f"Invalid state index: {state_n}. States are indexed by integers")
+        if not isinstance(state_id, int):
+            if state_id == "term":
+                pass
+            else:
+                raise TypeError(
+                    f"Invalid state index: {state_id}. States are indexed by integers"
+                )
 
-        self.id = state_n
-        self.name = f"s_{state_n}"
+        self.id = state_id
+        self.name = f"s_{state_id}"
 
     def __hash__(self):
         return hash(self.name)
@@ -45,3 +50,25 @@ class BCIState(pomdp_py.State):
         return f"BCIState({self.name})"
 
 
+class TDState(BCIState):
+    def __init__(self, state_id, time_step):
+        """
+        Parameters
+        ----------
+        time_step: int
+            Designates the time step within a trial. For each trial, the state starts at time step 1,
+            and every time the POMDP executes an action, the model can only transition to states on
+            the next time step.
+        """
+        super().__init__(state_id)
+
+        if not isinstance(time_step, int):
+            raise TypeError(
+                f"Invalid timestep index: {time_step}. Time steps are indexed by integers"
+            )
+
+        self.t = time_step
+        self.name += f"-t_{self.t}"
+
+    def __repr__(self):
+        return f"Time-dependent BCIState({self.name})"

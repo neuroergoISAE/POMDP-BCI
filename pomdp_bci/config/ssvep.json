@@ -1,6 +1,8 @@
 {
   "n_subs": 9,
-  "ch_slice": ["PO7", "PO3", "POz", "PO4", "PO8", "O1", "Oz", "O2"],
+  "excluded_subs": [],
+  "ch_keep": ["PO7", "PO3", "POz", "PO4", "PO8", "O1", "Oz", "O2"],
   "sfreq": 256,
-  "max_augmenation": 4
+  "n_fbands": 5,
+  "cue_time": 1.0
 }

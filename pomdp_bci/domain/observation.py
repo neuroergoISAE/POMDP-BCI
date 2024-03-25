@@ -9,20 +9,25 @@ import pomdp_py
 
 
 class BCIObservation(pomdp_py.Observation):
-    def __init__(self, obs_n):
+    def __init__(self, obs_id):
         """
         Parameters
         ----------
-        obs_n: int
+        obs_id: int
             Observation number. These are identified by a single number, since the total number of observations
             and their probabilities can vary from case to case. Note: This object does not check whether the
             observation is within the boundaries of all possible observations
         """
-        if not isinstance(obs_n, int):
-            raise TypeError(f"Invalid observation index: {obs_n}. Observations are indexed by integers")
+        if not isinstance(obs_id, int):
+            if obs_id == "term":
+                pass
+            else:
+                raise TypeError(
+                    f"Invalid observation index: {obs_id}. Observations are indexed by integers"
+                )
 
-        self.id = obs_n
-        self.name = f"o_{obs_n}"
+        self.id = obs_id
+        self.name = f"o_{obs_id}"
 
     def __hash__(self):
         return hash(self.name)
