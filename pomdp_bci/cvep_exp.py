@@ -74,7 +74,6 @@ class CVEPExperiment(Experiment):
         load_models=True,
         code_win_len=0.250,
     ):
-
         super().__init__(
             epoch_len,
             o_cal_n,
