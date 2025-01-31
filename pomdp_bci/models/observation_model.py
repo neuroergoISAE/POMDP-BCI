@@ -17,7 +17,7 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 import pomdp_py
 import numpy as np
 
-from pomdp_bci.domain.observation import BCIObservation, ClockObservation
+from pomdp_bci.domain.observation import BCIObservation
 
 
 class ObservationModel(pomdp_py.ObservationModel):
