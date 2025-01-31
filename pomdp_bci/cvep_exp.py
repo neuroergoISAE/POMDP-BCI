@@ -18,8 +18,8 @@ from imblearn.under_sampling import RandomUnderSampler
 from scipy.stats import pearsonr
 from sklearn.metrics import accuracy_score
 
-from bci_pomdp.experiment import Experiment
-from bci_pomdp.utils import vanilliaEEG2Code, EEGnet_patchembeddingdilation
+from pomdp_bci.experiment import Experiment
+from pomdp_bci.utils import vanilliaEEG2Code, EEGnet_patchembeddingdilation
 
 
 class CVEPExperiment(Experiment):

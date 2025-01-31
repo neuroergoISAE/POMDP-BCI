@@ -17,8 +17,8 @@ from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 
 from moabb.datasets import Nakanishi2015
 
-from bci_pomdp.experiment import Experiment
-from bci_pomdp.utils import TRCA
+from pomdp_bci.experiment import Experiment
+from pomdp_bci.utils import TRCA
 
 
 class SSVEPExperiment(Experiment):

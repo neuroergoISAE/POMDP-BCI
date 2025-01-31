@@ -24,8 +24,8 @@ from pomdp_py import sarsop
 from pomdp_py.utils.interfaces.conversion import AlphaVectorPolicy
 from sklearn.metrics import accuracy_score, confusion_matrix
 
-from bci_pomdp.problem import BaseProblem, TDProblem
-from bci_pomdp.domain import BCIState, TDState, BCIObservation
+from pomdp_bci.problem import BaseProblem, TDProblem
+from pomdp_bci.domain import BCIState, TDState, BCIObservation
 
 
 class Experiment:

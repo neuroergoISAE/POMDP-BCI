@@ -14,7 +14,7 @@ import itertools
 
 import numpy as np
 
-from bci_pomdp.domain import BCIState, TDState
+from pomdp_bci.domain import BCIState, TDState
 
 
 class TransitionModel(pomdp_py.TransitionModel):

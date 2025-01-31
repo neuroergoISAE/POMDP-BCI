@@ -7,7 +7,7 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 
 import pomdp_py
 
-from bci_pomdp.models import (
+from pomdp_bci.models import (
     TransitionModel,
     TDTransitionModel,
     ObservationModel,
@@ -38,16 +38,16 @@ class BaseProblem(pomdp_py.POMDP):
 
     conf_matrix: 2D np.array
         Confusion matrix obtained from a previously trained classifier to use as the observation matrix.
-        See bci_pomdp.ObservationModel for more information
+        See pomdp_bci.ObservationModel for more information
 
     hit_reward: int
-        Reward for correct actions. See bci_pomdp.TransitionModel for more information
+        Reward for correct actions. See pomdp_bci.TransitionModel for more information
 
     miss_cost: int
-        Cost for incorrect actions. See bci_pomdp.TransitionModel for more information
+        Cost for incorrect actions. See pomdp_bci.TransitionModel for more information
 
     wait_cost: int
-        Cost for the 'wait' action. See bci_pomdp.TransitionModel for more information
+        Cost for the 'wait' action. See pomdp_bci.TransitionModel for more information
     """
 
     def __init__(
@@ -88,7 +88,7 @@ class TDProblem(pomdp_py.POMDP):
         Confusion matrix for the time-dependent observation model. Needs to be 3D with shape
         (n_steps, n_states, n_observations) for td_obs=True and 2D with shape (n_states,
         n_observations) for td_obs=False.
-            See bci_pomdp.TDObservationModel and bci_pomdp.ObservationModel for more information.
+            See pomdp_bci.TDObservationModel and pomdp_bci.ObservationModel for more information.
 
     n_steps: int or None, default=None
         Number of time steps for a time-dependent BCI-POMDP problem. It usually entails the
