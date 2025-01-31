@@ -11,6 +11,7 @@ from bci_pomdp.models import (
     TransitionModel,
     TDTransitionModel,
     ObservationModel,
+    FiniteObservationModel,
     TDObservationModel,
     RewardModel,
     TermRewardModel,
@@ -83,15 +84,22 @@ class TDProblem(pomdp_py.POMDP):
     Parameters
     ----------
 
-    conf_matrix: 3D np.array
+    conf_matrix: 2D or 3D np.array
         Confusion matrix for the time-dependent observation model. Needs to be 3D with shape
-        (n_steps, n_states, n_observations).
-            See bci_pomdp.TDObservationModel for more information
+        (n_steps, n_states, n_observations) for td_obs=True and 2D with shape (n_states,
+        n_observations) for td_obs=False.
+            See bci_pomdp.TDObservationModel and bci_pomdp.ObservationModel for more information.
 
     n_steps: int or None, default=None
-        Number of time steps for a time-dependent BCI-POMDP problem. If this is not None, the following
-        components of the model will be replaced by their time-dependent counterparts: TransitionModel,
-        ObservationModel,
+        Number of time steps for a time-dependent BCI-POMDP problem. It usually entails the
+        number of decision steps made in one trial plus one step where the POMDP makes a final
+        action after all data has been used.
+
+    td_obs: bool, default=True
+        Variable to control the type of observation model used. If true, the observation model
+        will depend on time (TDObservationModel), whereas if it is false, it will not
+        (ObservationModel). Note that the different base and time-dependent models expect confusion
+        matrices of 3 and 2 dimensions, respectively.
     """
 
     def __init__(
@@ -101,6 +109,7 @@ class TDProblem(pomdp_py.POMDP):
         n_targets,
         conf_matrix,
         n_steps,
+        td_obs=True,
         hit_reward=10,
         miss_cost=-100,
         wait_cost=-1,
@@ -111,8 +120,12 @@ class TDProblem(pomdp_py.POMDP):
             n_targets
         )  # Policy model makes the action list using the number of targets
         transition_model = TDTransitionModel(n_targets, n_steps)
-        observation_model = TDObservationModel(conf_matrix=conf_matrix)
-        name = "Time-dependent BCIProblem"
+        if td_obs:
+            observation_model = TDObservationModel(conf_matrix=conf_matrix)
+            name = "Time-dependent BCIProblem"
+        else:
+            observation_model = FiniteObservationModel(conf_matrix=conf_matrix)
+            name = "Time-mixed BCIProblem"
 
         agent = pomdp_py.Agent(
             init_belief, policy_model, transition_model, observation_model, reward_model

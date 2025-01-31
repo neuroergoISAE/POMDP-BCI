@@ -17,7 +17,7 @@ mail: Juan-jesus.TORRE-TRESOLS@isae-supaero.fr
 import pomdp_py
 import numpy as np
 
-from bci_pomdp.domain.observation import BCIObservation
+from bci_pomdp.domain.observation import BCIObservation, ClockObservation
 
 
 class ObservationModel(pomdp_py.ObservationModel):
@@ -45,18 +45,79 @@ class ObservationModel(pomdp_py.ObservationModel):
         self.n_states, self.n_obs = self.observation_matrix.shape
 
     def probability(self, observation, next_state, action):
-        # The probability of obtaining a new observation knowing the state is given by the discretization / conf matrix
-        obs_idx = int(observation.id)
-        state_idx = int(next_state.id)
-        return self.observation_matrix[state_idx][obs_idx]
+        if "wait" in action.name:
+            # The probability of obtaining a new observation knowing the state is given by the discretization / conf matrix
+            obs_idx = int(observation.id)
+            state_idx = int(next_state.id)
+            return self.observation_matrix[state_idx][obs_idx]
+        else:  # When a decision is taken, the observation is provided at random
+            return 1 / self.n_states
 
     def sample(self, next_state, action):
-        state_idx = next_state.id
-        obs_p = self.observation_matrix[state_idx]
+        if "wait" in action.name:
+            state_idx = next_state.id
+            obs_p = self.observation_matrix[state_idx]
+        else:
+            obs_p = None
+
         return np.random.choice(self.get_all_observations(), p=obs_p)
 
     def get_all_observations(self):
         return [BCIObservation(o) for o in range(self.n_obs)]
+
+
+class FiniteObservationModel(ObservationModel):
+    """
+    Similar to ObservationModel, with the inclusion of a terminal state (finite-horizon problem), to which
+    the model transitions to when an action is taken. This requires a terminal observation to be included,
+    which is deterministically observed when in or when transitioning to the terminal state.
+
+    Parameters
+    ----------
+    conf_matrix: 2D np.array
+        Requires a confusion matrix in form of an array of the shape (n_states, n_obs) from a previously trained
+        classifier and uses it as the observation matrix.
+
+    Attributes
+    ----------
+    observation_matrix: 2D np.array, (n_class, n_observations)
+        Matrix representing the observation model, where each element represents the probability of obtaining
+        the observation corresponding on the column given that the agent is currently at the state corresponding
+        to the row. Example:
+            observation_matrix[2][5] = p(O=o_5|S=s_2)
+    """
+
+    def __init__(self, conf_matrix):
+        super().__init__(conf_matrix)
+
+    def probability(self, observation, next_state, action):
+        if "term" in observation.name:  # Terminal observation
+            if (
+                "term" in next_state.name or "wait" not in action.name
+            ):  # Transition to terminal state
+                return 1
+            else:
+                return 0
+        else:  # Non-terminal observation
+            if "term" in next_state.name or "wait" not in action.name:
+                return 0
+            else:
+                return super().probability(observation, next_state, action)
+
+    def sample(self, next_state, action):
+        if (
+            "term" in next_state.name or "wait" not in action.name
+        ):  # Transition to terminal state
+            return BCIObservation("term")
+        else:  # Other transitions
+            super().sample(next_state, action)
+
+    def get_all_observations(self, include_terminal=True):
+        all_obs = [BCIObservation(o) for o in range(self.n_obs)]
+        if include_terminal:
+            all_obs.append(BCIObservation("term"))
+
+        return all_obs
 
 
 class TDObservationModel(ObservationModel):

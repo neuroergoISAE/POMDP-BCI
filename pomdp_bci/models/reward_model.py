@@ -42,9 +42,12 @@ class RewardModel(pomdp_py.RewardModel):
 
     def __init__(self, hit_reward=10, miss_cost=-100, wait_cost=-1):
         if not all(
-            isinstance(attr, int) for attr in [hit_reward, miss_cost, wait_cost]
+            isinstance(attr, int) or isinstance(attr, float)
+            for attr in [hit_reward, miss_cost, wait_cost]
         ):
-            raise TypeError("All cost/reward values must be integers.")
+            raise TypeError(
+                f"All cost/reward values must be integers. Got {hit_reward}, {miss_cost}, {wait_cost}"
+            )
 
         self.hit_reward = hit_reward
         self.miss_cost = miss_cost
@@ -92,11 +95,6 @@ class TermRewardModel(RewardModel):
     """
 
     def __init__(self, hit_reward=10, miss_cost=-100, wait_cost=-1):
-        if not all(
-            isinstance(attr, int) for attr in [hit_reward, miss_cost, wait_cost]
-        ):
-            raise TypeError("All cost/reward values must be integers.")
-
         super().__init__(
             hit_reward=hit_reward, miss_cost=miss_cost, wait_cost=wait_cost
         )
